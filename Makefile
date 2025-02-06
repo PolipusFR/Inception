@@ -1,13 +1,13 @@
 all: up
 
 build:
-	docker compose build
+	docker-compose build
 
 up: build
-	docker compose up -d
+	docker-compose up -d
 
 down:
-	docker compose down
+	docker-compose down
 
 clean: down
 	docker system prune -af --volumes
