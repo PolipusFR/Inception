@@ -1,52 +1,63 @@
 services:
   nginx:
-    build: ./nginx
     container_name: nginx
-    restart: unless-stopped
-    ports:
-      - "443:443"
-    volumes:
-      - wordpress_volume:/var/www/html
-      - ./nginx/ssl:/etc/nginx/ssl
-    networks:
-      - app-network
     depends_on:
       - wordpress
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - wp_volume:/var/www/wordpress
+    networks:
+      - inception
+    restart: on-failure
+    ports:
+      - "443:443"
 
   wordpress:
-    build: ./wordpress
     container_name: wordpress
-    restart: unless-stopped
-    environment:
-      - WORDPRESS_DB_HOST=mariadb
-      - WORDPRESS_DB_NAME=${DB_NAME}
-      - WORDPRESS_DB_USER=${DB_USER}
-      - WORDPRESS_DB_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - wordpress_volume:/var/www/html
-    networks:
-      - app-network
     depends_on:
       - mariadb
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - wp_volume:/var/www/wordpress
+    networks:
+      - inception
+    restart: on-failure
+    expose:
+      - "9000"
 
   mariadb:
-    build: ./mariadb
     container_name: mariadb
-    restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+    image: mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+      args:
+        SQL_DATABASE : $SQL_DATABASE
+        SQL_USER : $SQL_USER
+        SQL_PASSWORD : $SQL_PASSWORD
+        SQL_ROOT_PASSWORD : $SQL_ROOT_PASSWORD
+    env_file:
+      - .env
     volumes:
-      - db_volume:/var/lib/mysql
+      - mariadb_volume:/var/lib/mysql
     networks:
-      - app-network
+      - inception
+    restart: unless-stopped
+    expose:
+      - "3306"
 
 volumes:
-  db_volume:
-  wordpress_volume:
+  wp_volume:
+  mariadb_volume:
 
 networks:
-  app-network:
+  inception:
     driver: bridge
