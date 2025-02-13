@@ -1,8 +1,8 @@
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'sqlrootpass';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';
 
 CREATE DATABASE IF NOT EXISTS wordpress;
 
-CREATE USER IF NOT EXISTS 'lsabatie'@'%' IDENTIFIED BY 'sqlpass';
-GRANT ALL PRIVILEGES ON wordpress.* TO 'lsabatie'@'%';
+CREATE USER IF NOT EXISTS '${SQL_USER}'@'%' IDENTIFIED BY '${SQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON wordpress.* TO '${SQL_USER}'@'%';
 
 FLUSH PRIVILEGES;

@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress:/var/www/wordpress
+      - /home/lsabatie/data/wordpress:/var/www/wordpress
     networks:
       - inception
     restart: on-failure
@@ -26,7 +26,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress:/var/www/wordpress
+      - /home/lsabatie/data/wordpress:/var/www/wordpress
     networks:
       - inception
     restart: on-failure
@@ -47,7 +47,7 @@ services:
     env_file:
       - .env
     volumes:
-      - mariadb:/var/lib/mysql
+      - /home/lsabatie/data/mariadb:/var/lib/mysql
     networks:
       - inception
     restart: unless-stopped
