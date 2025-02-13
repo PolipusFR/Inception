@@ -12,7 +12,7 @@ stop:
 start:
 	docker-compose -f ./srcs/docker-compose.yml start
 
-clear: down
+clean: down
 	sudo docker system prune -af --volumes
 
 re: clean all

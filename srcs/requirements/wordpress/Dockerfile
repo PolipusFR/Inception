@@ -2,9 +2,9 @@ FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y && apt install -y \
     wget \
+    php7.4 \
     php-fpm \
     php-mysql \
-    php7.4 \
     mariadb-client
 
 RUN mkdir -p /var/www/wordpress 

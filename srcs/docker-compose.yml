@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wp_volume:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     networks:
       - inception
     restart: on-failure
@@ -26,7 +26,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wp_volume:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     networks:
       - inception
     restart: on-failure
@@ -47,7 +47,7 @@ services:
     env_file:
       - .env
     volumes:
-      - mariadb_volume:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - inception
     restart: unless-stopped
@@ -55,13 +55,13 @@ services:
       - "3306"
 
 volumes:
-  wp_volume:
+  wordpress:
     driver: local
     driver_opts:
       type: none
       device: /home/lsabatie/data/wordpress
       o: bind
-  mariadb_volume:
+  mariadb:
     driver: local
     driver_opts:
       type: none
