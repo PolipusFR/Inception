@@ -17,8 +17,8 @@ if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
 						--dbpass=$SQL_PASSWORD \
 						--dbhost=mariadb:3306 --path='/var/www/wordpress'
 
-	wp core install --url=lgabet.42.fr \
-	                --title=lgabetWordpress \
+	wp core install --url=lsabatie.42.fr \
+	                --title=lsabatieWordpress \
 	                --admin_user=$ADMIN_USER \
 	                --admin_password=$ADMIN_PASSWORD \
 	                --admin_email=$ADMIN_MAIL \

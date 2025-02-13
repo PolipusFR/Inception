@@ -18,6 +18,6 @@ RUN wget https://github.com/wp-cli/wp-cli-bundle/releases/download/v2.7.0/wp-cli
 COPY conf/config-script.sh /var/
 RUN chmod +x /var/config-script.sh
 
-ENTRYPOINT [ "/var/config-script.sh" ]
+ENTRYPOINT ["/var/config-script.sh"]
 
 EXPOSE 9000

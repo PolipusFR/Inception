@@ -56,7 +56,17 @@ services:
 
 volumes:
   wp_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/lsabatie/data/wordpress
+      o: bind
   mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/lsabatie/data/mariadb
+      o: bind
 
 networks:
   inception:
