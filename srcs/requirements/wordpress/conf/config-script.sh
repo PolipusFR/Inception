@@ -2,7 +2,7 @@
 
 WP_PATH='/var/www/wordpress'
 
-until mysqladmin ping -h"mariadb" --silent; do
+until mysqladmin ping -h'mariadb' ; do
     echo "Waiting for database connection..."
     sleep 2
 done

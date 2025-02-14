@@ -5,7 +5,7 @@ echo "Starting MariaDB..."
 mysqld_safe &
 
 #wait for the db to be available
-until mysqladmin ping -h"localhost"; do
+until mysqladmin ping; do
     echo "Waiting for database to start..."
     sleep 2
 done
