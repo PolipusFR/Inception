@@ -15,6 +15,8 @@ start:
 clean: down
 	sudo docker system prune -af --volumes
 
-re: clean all
+re: down up
+
+reboot: clear all
 
 .PHONY: all build up down clean re
