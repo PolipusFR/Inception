@@ -2,10 +2,10 @@
 
 echo "Starting MariaDB..."
 #Run mariadb in the background
-mysqld_safe &
+mysqld_safe --datadir=/var/lib/mysql &
 
 #wait for the db to be available
-until mysqladmin ping; do
+until mysqladmin ping -u root -p$SQL_ROOT_PASSWORD --silent; do
     echo "Waiting for database to start..."
     sleep 2
 done

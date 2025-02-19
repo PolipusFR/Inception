@@ -12,6 +12,9 @@ COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d
 COPY conf/init.sql /docker-entrypoint-initdb.d/
 COPY conf/entrypoint.sh /entrypoint.sh
 
+RUN mkdir -p /var/lib/mysql /run/mysqld && \
+    chown -R mysql:mysql /var/lib/mysql /run/mysqld
+
 RUN chmod +x /entrypoint.sh
 
 CMD [ "/entrypoint.sh" ]
