@@ -1,42 +1,27 @@
 #!/bin/bash
 
-WP_PATH='/var/www/wordpress'
+wp config create	--allow-root \
+					--dbname="$SQL_DATABASE" \
+					--dbuser="$SQL_USER" \
+					--dbpass="$SQL_PASSWORD" \
+					--dbhost=mariadb \
+					--path="$WP_PATH"
 
-until mysqladmin ping -h'mariadb' -u$SQL_USER -p$SQL_PASSWORD; do
-    echo "Waiting for database connection..."
-    sleep 2
-done
-
-echo "Here1"
-
-if [ ! -f "$WP_PATH/wp-config.php" ]; then
-    wp core download --path=$WP_PATH --allow-root
-	echo "Here3"
-	wp config create	--allow-root \
-						--dbname=$SQL_DATABASE \
-						--dbuser=$SQL_USER \
-						--dbpass=$SQL_PASSWORD \
-						--dbhost=mariadb:3306 --path='/var/www/wordpress'
-
-	wp core install --url=lsabatie.42.fr \
-					--title=lsabatieWordpress \
-					--admin_user=$ADMIN_USER \
-					--admin_password=$ADMIN_PASSWORD \
-					--admin_email=$ADMIN_MAIL \
-					--allow-root \
-					--path=$WP_PATH
+wp core install 	--allow-root \
+					--path="$WP_PATH" \ 
+					--title="$WP_TITLE" \
+					--url="$DOMAIN_NAME" \
+					--admin_user="$ADMIN_USER" \
+					--admin_password="$ADMIN_PASSWORD" \
+					--admin_email="$ADMIN_MAIL" \
 		
-	wp user create  $WP_USER \
-					$WP_MAIL \
-					--user_pass=$WP_PWD \
+wp user create  	--allow-root \
+					--path="$WP_PATH" \
+					"$USER_NAME" \
+					"$USER_EMAIL" \
+					--user_pass="$USER_PWD" \
 					--role=contributor \
-					--allow-root \
-					--path=$WP_PATH
-fi
 
-echo "Here4"
-
-mkdir -p /run/php/
-php-fpm7.4 -F 
+exec php-fpm7.4 -F 
 
 					

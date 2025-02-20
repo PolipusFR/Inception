@@ -1,22 +1,20 @@
-FROM debian:bullseye
+FROM debian:oldstable
 
-ARG SQL_DATABASE
-ARG SQL_USER
-ARG SQL_PASSWORD
-ARG SQL_ROOT_PASSWORD
+ARG DATABASE_NAME
+ARG ADMIN_USER
+ARG ADMIN_PWD
 
 RUN apt update -y && apt upgrade -y && apt install -y \
     mariadb-server
 
-COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d
-COPY conf/init.sql /docker-entrypoint-initdb.d/
-COPY conf/entrypoint.sh /entrypoint.sh
+RUN mkdir -p /var/run/mysqld \
+    && chown -R mysql:mysql /var/run/mysqld \
+    && chmod 777 /var/run/mysqld
 
-RUN mkdir -p /var/lib/mysql /run/mysqld && \
-    chown -R mysql:mysql /var/lib/mysql /run/mysqld
+COPY conf/my.cnf /etc/mysql/my.cnf
 
-RUN chmod +x /entrypoint.sh
+COPY conf/mariadb_script.sh /tmp/mariadb_script.sh
 
-CMD [ "/entrypoint.sh" ]
+RUN chmod 777 /tmp/mariadb_script.sh && bash /tmp/mariadb_script.sh
 
-EXPOSE 3306
+CMD ["mysqldsafe"]

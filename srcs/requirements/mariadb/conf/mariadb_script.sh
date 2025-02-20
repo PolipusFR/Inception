@@ -1,0 +1,9 @@
+#!/bin/bash
+
+service mariadb start
+
+mariadb -u root -e \
+    "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME; \
+    CREATE USER IF NOT EXISTS '$ADMIN_USER'@'%' IDENTIFIED BY '$ADMIN_PASSWORD'; \
+    GRANT ALL PRIVILEGES ON $DATABASE_NAME.* TO '$ADMIN_USER'@'%'; \
+    FLUSH PRIVILEGES;"

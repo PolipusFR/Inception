@@ -1,23 +1,27 @@
-FROM debian:bullseye
+FROM debian:oldstable
+
+WORKDIR /var/www/html
 
 RUN apt update -y && apt upgrade -y && apt install -y \
     wget \
+    curl \
     php7.4 \
     php-fpm \
     php-mysql \
     mariadb-client
 
-RUN mkdir -p /var/www/wordpress 
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+RUN mkdir -p /run/php
 
-RUN wget https://github.com/wp-cli/wp-cli-bundle/releases/download/v2.7.0/wp-cli-2.7.0.phar \
-    && chmod +x wp-cli-2.7.0.phar \
-    && mv wp-cli-2.7.0.phar /usr/local/bin/wp
+RUN wget https://wordpress.org/latest.tar.gz -O latest.tar.gz \
+    && tar -xvzf latest.tar.gz \
+    && mv wordpress/* /var/www/html/ \
+    && rm -rf wordpress latest.tar.gz
 
-COPY conf/config-script.sh /var/
-RUN chmod +x /var/config-script.sh
+COPY conf/config-script.sh /tmp/
+
+RUN chmod +x /tmp/config-script.sh
 
 ENTRYPOINT ["/var/config-script.sh"]
-
-EXPOSE 9000

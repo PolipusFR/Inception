@@ -6,10 +6,8 @@ services:
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    env_file:
-      - .env
     volumes:
-      - /home/lsabatie/data/wordpress:/var/www/wordpress
+      - wordpress_vol:/var/www/html
     networks:
       - inception
     restart: on-failure
@@ -26,12 +24,12 @@ services:
     env_file:
       - .env
     volumes:
-      - /home/lsabatie/data/wordpress:/var/www/wordpress
+      - wordpress_vol:/var/www/html
     networks:
       - inception
     restart: on-failure
     expose:
-      - "9000"
+      - 9000
 
   mariadb:
     container_name: mariadb
@@ -40,28 +38,31 @@ services:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
       args:
-        SQL_DATABASE : $SQL_DATABASE
-        SQL_USER : $SQL_USER
-        SQL_PASSWORD : $SQL_PASSWORD
-        SQL_ROOT_PASSWORD : $SQL_ROOT_PASSWORD
+        - ADMIN_USER=${ADMIN_USER}
+        - ADMIN_PWD=${ADMIN_PWD}
+        - DATABASE_NAME=${DATABASE_NAME}
+    environment:
+      - ADMIN_USER
+      - ADMIN_PWD
+      - DATABASE_NAME
     env_file:
       - .env
     volumes:
-      - /home/lsabatie/data/mariadb:/var/lib/mysql
+      - mariadb_vol:/var/lib/mysql
     networks:
       - inception
-    restart: unless-stopped
+    restart: on-failure
     expose:
-      - "3306"
+      - 3306
 
 volumes:
-  wordpress:
+  wordpress_vol:
     driver: local
     driver_opts:
       type: none
       device: /home/lsabatie/data/wordpress
       o: bind
-  mariadb:
+  mariadb_vol:
     driver: local
     driver_opts:
       type: none
