@@ -1,4 +1,4 @@
-FROM debian:oldstable
+FROM debian:bullseye
 
 WORKDIR /var/www/html
 
@@ -24,4 +24,4 @@ COPY conf/config-script.sh /tmp/
 
 RUN chmod +x /tmp/config-script.sh
 
-ENTRYPOINT ["/var/config-script.sh"]
+ENTRYPOINT ["/tmp/config-script.sh"]
