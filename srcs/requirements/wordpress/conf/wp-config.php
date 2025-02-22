@@ -50,5 +50,7 @@ define( 'WP_CACHE', true ); // Active la mise en cache
 // Ajouter un sel unique pour les clés de cache afin d'éviter les conflits entre sites
 define( 'WP_CACHE_KEY_SALT',  '_server_name_'); // Remplacez _server_name_ par une chaîne unique pour ce serveur
 
+define ('FS_METHOD', 'direct'); // Permet de télécharger et installer des thèmes et plugins sans demander de mot de passe FTP
+
 // Inclure les fichiers principaux de WordPress
 require_once ABSPATH . 'wp-settings.php'; // Charge les réglages et initialisations de WordPress

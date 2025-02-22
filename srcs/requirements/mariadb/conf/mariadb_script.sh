@@ -3,7 +3,7 @@
 if [ -d "/var/lib/mysql/${DATABASE_NAME}" ]; then
     echo "Mariadb already set up."
 else
-    mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+    mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
     mysqld --skip-networking --socket=/var/run/mysqld/mysqld.sock &
     pid="$!"
