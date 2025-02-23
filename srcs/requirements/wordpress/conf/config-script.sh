@@ -40,7 +40,7 @@ else
 						"${WP_USER}@user.com" \
 						--allow-root \
 						--role=author \
-						--user_pass=${WP_USER_PWD} \
+						--user_pass=${WP_USER_PASSWORD} \
 						--path=/var/www/html
 fi
 

@@ -21,7 +21,7 @@ config :
 	fi
 
 run: build_vol
-	$(DOCKER_COMPOSE) -f ./srcs/docker-compose.yml up --build
+	$(DOCKER_COMPOSE) -f ./srcs/docker-compose.yml up --build -d
 
 down:
 	$(DOCKER_COMPOSE) -f ./srcs/docker-compose.yml down -v
@@ -58,7 +58,7 @@ rm_vol: down
 clean: down rm_vol
 	docker system prune -af --volumes
 
-re: down up
+re: down run
 
 reboot: clear all
 
