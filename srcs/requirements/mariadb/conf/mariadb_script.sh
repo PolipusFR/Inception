@@ -22,8 +22,6 @@ else
         exit 1
     fi
 
-    mysql -u root -e "DROP TABLE IF EXISTS mysql.user;"
-    mysql -u root -e "DROP VIEW IF EXISTS mysal.user;"
     mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;"
     mysql -u root -e "CREATE USER IF NOT EXISTS '$MYSQL_ROOT_USER'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';"
     mysql -u root -e "GRANT ALL ON *.* TO '$MYSQL_ROOT_USER'@'%';"
